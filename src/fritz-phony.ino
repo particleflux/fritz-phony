@@ -12,7 +12,7 @@
 
 
 #define BACKLIGHT_PIN D6
-#define FRITZBOX_HOST "192.168.178.200"
+#define FRITZBOX_HOST "fritz.box"
 
 typedef enum {
     UNKNOWN,
