@@ -13,6 +13,8 @@
 
 #define BACKLIGHT_PIN D6
 #define FRITZBOX_HOST "fritz.box"
+//#define FRITZBOX_HOST "10.0.10.2"
+#define DISPLAY_TIMEOUT 30000
 
 typedef enum {
     UNKNOWN,
@@ -28,6 +30,7 @@ char buffer[255];
 char line1[16];
 char line2[16];
 int size = 0;
+uint32_t displayTime;
 
 
 void setup() {
@@ -62,6 +65,11 @@ void loop() {
       Serial.println("got data:");
       Serial.println(buffer);
       parseMessage();
+  }
+
+  if (millis() - displayTime >= DISPLAY_TIMEOUT) {
+      digitalWrite(BACKLIGHT_PIN, HIGH);
+      lcd.noDisplay();
   }
 }
 
@@ -126,7 +134,6 @@ void parseMessage() {
     }
 
     display();
-
 }
 
 void display() {
@@ -136,4 +143,5 @@ void display() {
     lcd.print(line1);
     lcd.setCursor(0, 1);
     lcd.print(line2);
+    displayTime = millis();
 }
